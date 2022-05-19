@@ -90,7 +90,7 @@ export default function signInPage({ csrfToken, providers }) {
         </button>
         <br />
         <button className={styles.button} onClick={(e) => signupUser(e)}>
-          Sign Up
+          Register
         </button>
       </form>
     </div>

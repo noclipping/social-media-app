@@ -9,30 +9,56 @@ import React from "react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import styles from "../styles/Signin.module.css";
-import Link from "next/link";
+
 export default function signInPage({ csrfToken, providers }) {
   const [email, setEmail] = useState(""); // might be an error cause i have 2 email forms / ids / names below. watch the vid maybe he fixes it idk.
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [message, setMessage] = useState(null);
   const { data: session } = useSession();
-  const signInUser = async (e) => {
+
+  const signupUser = async (e) => {
     e.preventDefault();
-    let options = { redirect: false, email, password };
-    console.log(options);
-    const res = await signIn("credentials", options);
     setMessage(null);
-    if (res?.error) {
-      setMessage(res.error);
-    } else {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+    let data = await res.json();
+    if (data.message) {
+      setMessage(data.message);
+    }
+
+    if (data.message === "Registered successfully") {
+      let options = { redirect: false, email, password };
+      const res = await signIn("credentials", options);
       return Router.push("/");
     }
-    console.log(email, password);
   };
-
   return (
     <div className={styles.container}>
       <form action="">
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+
+        <div>
+          <label>
+            Username
+            <br />
+            <input
+              type="username"
+              id="username"
+              name="username"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+            />
+          </label>
+        </div>
+
         <div>
           <label>
             Email address
@@ -48,6 +74,7 @@ export default function signInPage({ csrfToken, providers }) {
             />
           </label>
         </div>
+
         <div>
           <label>
             Password
@@ -64,13 +91,10 @@ export default function signInPage({ csrfToken, providers }) {
           </label>
         </div>
         <p style={{ color: "red" }}>{message}</p>
-        <button className={styles.button} onClick={(e) => signInUser(e)}>
-          Sign In
-        </button>
         <br />
-        <Link href="/register">
-          <button className={styles.button}>Register</button>
-        </Link>
+        <button className={styles.button} onClick={(e) => signupUser(e)}>
+          Register
+        </button>
       </form>
     </div>
   );

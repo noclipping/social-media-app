@@ -6,16 +6,24 @@
 .container {
   display: grid;
   background-color: #161b22;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   padding: 10px 0px 10px;
-  max-width: 1200px;
+  max-width: 1160px;
   margin: 0 auto;
 }
-
+.image {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  top: 6px;
+  align-self: end;
+  justify-self: end;
+}
 .user_info_container {
   justify-self: end;
   align-self: center;
-  margin-right: 20px;
+  display: grid;
 }
 .user_info p {
   margin-left: 20px;
@@ -26,7 +34,6 @@
 .logo {
   align-self: center;
   font-size: 40px;
-  margin-left: 20px;
 }
 .button {
   appearance: none;

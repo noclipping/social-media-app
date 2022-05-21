@@ -18,7 +18,6 @@ export default function signInPage({ csrfToken, providers }) {
   const signInUser = async (e) => {
     e.preventDefault();
     let options = { redirect: false, email, password };
-    console.log(options);
     const res = await signIn("credentials", options);
     setMessage(null);
     if (res?.error) {
@@ -26,11 +25,13 @@ export default function signInPage({ csrfToken, providers }) {
     } else {
       return Router.push("/");
     }
-    console.log(email, password);
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{ height: "220px", width: "220px", paddingTop: "10px" }}
+    >
       <form action="">
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
         <div>
@@ -67,7 +68,6 @@ export default function signInPage({ csrfToken, providers }) {
         <button className={styles.button} onClick={(e) => signInUser(e)}>
           Sign In
         </button>
-        <br />
         <Link href="/register">
           <button className={styles.button}>Register</button>
         </Link>
@@ -76,7 +76,6 @@ export default function signInPage({ csrfToken, providers }) {
   );
 }
 export async function getServerSideProps(context) {
-  console.log(context);
   const { req } = context;
   const session = await getSession({ req });
   if (session) {

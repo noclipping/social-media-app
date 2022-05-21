@@ -11,12 +11,22 @@ export default NextAuth({
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async jwt({ token, account }) {
+      return token;
+    },
+    async session({ session, token, user }) {
+      const email = session.user.email;
+      const userInfo = await User.findOne({ email }, { password: 0 });
+      session.user = userInfo;
+      return session;
+    },
+  },
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "Credentials",
       async authorize(credentials, req) {
-        console.log(credentials.email, credentials.password, "nextauthhting");
         const email = credentials.email;
         const password = credentials.password;
         const user = await User.findOne({ email });
@@ -41,6 +51,5 @@ const signInUser = async ({ password, user }) => {
   if (!isMatch) {
     throw new Error("Password not correct");
   }
-  console.log(user, "user");
   return user;
 };

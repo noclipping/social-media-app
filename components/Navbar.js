@@ -6,8 +6,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  console.log(session, "session");
 
-  console.log(session);
   return (
     <div className={styles.parent_container}>
       <div className={styles.container}>

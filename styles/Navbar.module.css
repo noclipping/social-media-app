@@ -34,6 +34,9 @@
 .logo {
   align-self: center;
   font-size: 40px;
+  background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(145, 145, 145));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .button {
   appearance: none;

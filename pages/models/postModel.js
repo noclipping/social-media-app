@@ -12,6 +12,7 @@ const postSchema = new mongoose.Schema(
     },
     comments: {
       type: Array,
+      default: [],
     },
     likes: {
       type: Number,
@@ -21,5 +22,5 @@ const postSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-let Dataset = mongoose.models.users || mongoose.model("posts", postSchema);
+let Dataset = mongoose.models.posts || mongoose.model("posts", postSchema);
 export default Dataset;

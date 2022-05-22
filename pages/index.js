@@ -2,8 +2,31 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
-export default function Home() {
+import Post from "../components/Post";
+import { useState } from "react";
+import { server } from "../config/index";
+export default function Home({ data }) {
   const { data: session } = useSession();
+  const [newPost, setNewPost] = useState("");
+  console.log(data, "gamerdata");
+  async function submitPost(e) {
+    e.preventDefault();
+    fetch(`${server}/api/posts/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uid: session.user._id,
+        content: newPost,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setNewPost("");
+      });
+  }
   return (
     <div>
       <Head>
@@ -12,15 +35,31 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <div style={{ border: "solid 1px yellow" }}>lol</div>
+        <div style={{ border: "solid 1px yellow" }}>
+          <div style={{ width: "80%", margin: "0 auto" }}>
+            <form>
+              <br />
+              <input
+                placeholder={`what's on your mind ${session?.user.username}?`}
+                style={{ width: "80%" }}
+                onChange={(e) => setNewPost(e.target.value)}
+              />
+              <button style={{ width: "20%" }} onClick={submitPost}>
+                Submit
+              </button>
+            </form>
+          </div>
+          <Post />
+          <Post />
+        </div>
         <div style={{ border: "solid 1px aqua" }}>yo</div>
       </div>
     </div>
   );
 }
 
-// export async function getServerSideProps() {
-//   // console.log(process.env.MONGODB_URI, "uri");
-//   // env variables can only be accessed through APIs or getting static/server props
-//   return { props: { data: "data" } };
-// }
+export async function getServerSideProps() {
+  const res = await fetch(`${server}/api/posts`);
+  const data = await res.json();
+  return { props: { data } };
+}

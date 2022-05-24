@@ -8,7 +8,6 @@ import { server } from "../config/index";
 export default function Home({ data }) {
   const { data: session } = useSession();
   const [newPost, setNewPost] = useState("");
-  console.log(data, "gamerdata");
   async function submitPost(e) {
     e.preventDefault();
     fetch(`${server}/api/posts/create`, {
@@ -18,6 +17,7 @@ export default function Home({ data }) {
       },
       body: JSON.stringify({
         uid: session.user._id,
+        username: session.user.username,
         content: newPost,
       }),
     })
@@ -49,8 +49,11 @@ export default function Home({ data }) {
               </button>
             </form>
           </div>
-          <Post />
-          <Post />
+          {data
+            ? data.posts.map((post) => {
+                return <Post post={post} key={post._id} />;
+              })
+            : ""}
         </div>
         <div style={{ border: "solid 1px aqua" }}>yo</div>
       </div>

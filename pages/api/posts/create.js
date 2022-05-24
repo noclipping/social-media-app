@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   const body = req.body;
   const post = new Post({
     uid: body.uid,
+    username: body.username,
     content: body.content,
   });
   await post.save();

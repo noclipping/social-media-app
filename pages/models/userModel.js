@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://i.stack.imgur.com/34AD2.jpg",
     },
+    posts: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

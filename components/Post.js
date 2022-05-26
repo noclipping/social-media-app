@@ -4,9 +4,12 @@ import server from "../config/index";
 import styles from "../styles/Post.module.css";
 import Link from "next/link";
 import { useState } from "react";
+import Comment from "./Comment";
+import { useEffect } from "react";
 export default function Post({ post }) {
   const { data: session } = useSession();
   const [content, setContent] = useState("");
+  const [comments, setComments] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`/api/comments/create`, {
@@ -23,11 +26,14 @@ export default function Post({ post }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.comment), "yo";
         setContent("");
+        setComments((prevState) => [...prevState, data.comment]);
       });
   };
-
+  useEffect(() => {
+    setComments(post.comments);
+  }, []);
   return (
     <div className={styles.container}>
       <Link href={`/users/${post.uid}`}>
@@ -48,7 +54,7 @@ export default function Post({ post }) {
         </div>
       </Link>
       <p className={styles.content}>{post.content}</p>
-      <div>Comments</div>
+      <div className={styles.comments}>Comments</div>
       <br />
       <div>
         <form>
@@ -71,8 +77,8 @@ export default function Post({ post }) {
           </button>
         </form>
         <div>
-          {post.comments.map((comment) => (
-            <p key={comment._id}>{comment.content}</p>
+          {comments?.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
           ))}
         </div>
       </div>

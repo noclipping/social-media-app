@@ -16,8 +16,8 @@ export default async function handler(req, res) {
         { $push: { comments: savedDoc } },
         (err, docs) => {
           console.log("Updated doc:", docs);
+          res.status(400).json({ comment: savedDoc });
         }
       );
     });
-  await res.status(400).json({ message: "Comment created" });
 }

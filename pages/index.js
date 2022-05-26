@@ -1,13 +1,14 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
-import Link from "next/link";
 import Post from "../components/Post";
 import { useState } from "react";
 import { server } from "../config/index";
+import { useEffect } from "react";
 export default function Home({ data }) {
   const { data: session } = useSession();
   const [newPost, setNewPost] = useState("");
+  const [posts, setPosts] = useState();
   async function submitPost(e) {
     e.preventDefault();
     fetch(`${server}/api/posts/create`, {
@@ -25,8 +26,13 @@ export default function Home({ data }) {
       .then((data) => {
         console.log(data);
         setNewPost("");
+        document.getElementById("postInput").value = "";
+        setPosts((prevPosts) => [data, ...prevPosts]);
       });
   }
+  useEffect(() => {
+    setPosts(data.posts);
+  }, []);
   return (
     <div>
       <Head>
@@ -40,9 +46,12 @@ export default function Home({ data }) {
             <form>
               <br />
               <input
+                id="postInput"
                 placeholder={`what's on your mind ${session?.user.username}?`}
                 style={{ width: "80%" }}
-                onChange={(e) => setNewPost(e.target.value)}
+                onChange={(e) => {
+                  setNewPost(e.target.value);
+                }}
               />
               <button style={{ width: "20%" }} onClick={submitPost}>
                 Submit
@@ -50,7 +59,7 @@ export default function Home({ data }) {
             </form>
           </div>
           {data
-            ? data.posts.map((post) => {
+            ? posts?.map((post) => {
                 return <Post post={post} key={post._id} />;
               })
             : ""}

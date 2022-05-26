@@ -9,6 +9,7 @@ export default async function handler(req, res) {
     username: body.username,
     content: body.content,
   });
-  await post.save();
-  res.status(400).json({ message: "Post created" });
+  await post.save().then((savedPost) => {
+    res.status(400).json(savedPost);
+  });
 }

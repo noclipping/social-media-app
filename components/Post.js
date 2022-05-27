@@ -10,8 +10,14 @@ export default function Post({ post }) {
   const { data: session } = useSession();
   const [content, setContent] = useState("");
   const [comments, setComments] = useState();
+  const [errMessage, setErrMessage] = useState("");
+  const [loadMore, setLoadMore] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!session?.user) {
+      setErrMessage("you must be signed in to comment!");
+      return;
+    }
     fetch(`/api/comments/create`, {
       method: "POST",
       headers: {
@@ -26,8 +32,15 @@ export default function Post({ post }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.comment), "yo";
+        if (data.error) {
+          console.log("error!");
+          setErrMessage(data.message);
+          return;
+        }
         setContent("");
+        setErrMessage("");
+        console.log(data);
+        document.getElementById("commentContent").value = "";
         setComments((prevState) => [...prevState, data.comment]);
       });
   };
@@ -61,9 +74,14 @@ export default function Post({ post }) {
       <br />
       <div>
         <form>
-          <div>comment as {session?.user.username} </div>
+          <div>
+            comment as {session?.user ? session.user.username : "guest"}{" "}
+          </div>
+          <br />
+          <p style={{ color: "red", fontSize: "14px" }}>{errMessage}</p>
           <br />
           <input
+            id="commentContent"
             placeholder="comment"
             style={{ width: "80%" }}
             onChange={(e) => {
@@ -79,7 +97,46 @@ export default function Post({ post }) {
             Submit
           </button>
         </form>
-        <div>{commentComp?.reverse()}</div>
+        <div>
+          {!loadMore
+            ? commentComp
+                ?.splice(commentComp.length - 3, commentComp.length)
+                .reverse()
+            : commentComp?.reverse()}
+        </div>
+        {commentComp?.length > 3 && !loadMore ? (
+          <div>
+            {" "}
+            <br />
+            <div
+              style={{
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setLoadMore(true);
+              }}
+            >
+              Load more
+            </div>
+          </div>
+        ) : (
+          <div>
+            {" "}
+            <br />
+            <div
+              style={{
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setLoadMore(false);
+              }}
+            >
+              Show less
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

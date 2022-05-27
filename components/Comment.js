@@ -32,6 +32,9 @@ export default function Comment({ comment, postId }) {
       : years + (years < 2 ? " year" : " years");
   }
   const handleLike = (e) => {
+    if (!session?.user) {
+      return;
+    }
     if (commentLiked) {
       setCommentLiked(false);
       comment.likes -= 1;
@@ -65,7 +68,6 @@ export default function Comment({ comment, postId }) {
           <div
             onClick={(e) => {
               e.stopPropagation();
-              console.log(`liked comment ${comment._id}`);
               handleLike(e);
             }}
           >

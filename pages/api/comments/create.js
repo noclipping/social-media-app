@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     return;
   }
   if (body.content.length < 1) {
-    res.status(400).json({ message: "post not long enough!", error: true });
+    res.status(400).json({ message: "comment not long enough!", error: true });
     return;
   }
   const comment = new Comment({

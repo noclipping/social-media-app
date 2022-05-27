@@ -4,17 +4,35 @@ import styles from "../styles/Comment.module.css";
 
 export default function Comment({ comment }) {
   let date = new Date(comment.createdAt);
-  date.toDateString(); // 'Wed May 25 2022'
-  date.toGMTString(); // 'Wed, 25 May 2022 07:10:17 GMT'
-  date.getMonth(); // 4
+  let currentTime = new Date();
+  const timeElapsed = currentTime.getTime() - date;
+  const seconds = Math.round(timeElapsed / 1000);
+  const minutes = Math.round(timeElapsed / 60000);
+  const hours = Math.round(timeElapsed / 3600000);
+  const days = Math.floor(timeElapsed / (24 * 3600000));
+  const years = Math.floor(timeElapsed / (24 * 3600000 * 365));
+
+  function getTimeElapsed() {
+    return timeElapsed < 60000
+      ? seconds + (seconds < 2 ? " second" : " seconds")
+      : timeElapsed < 3600000
+      ? minutes + (minutes < 2 ? " minute" : " minutes")
+      : timeElapsed < 24 * 3600000
+      ? hours + (hours < 2 ? " hour" : " hours")
+      : timeElapsed < 24 * 3600000 * 365
+      ? days + (days < 2 ? " day" : " days")
+      : years + (years < 2 ? " year" : " years");
+  }
+
   return (
     <div className={styles.container}>
       <Link href={`users/${comment.uid}`}>
-        <h1 className={styles.username}>{comment.username}</h1>
+        <div className={styles.username}>
+          <div>{comment.username}</div>
+          <div className={styles.timeElapsed}>{getTimeElapsed()} ago</div>
+        </div>
       </Link>
       <p className={styles.content}>{comment.content}</p>
-
-      <h2>{new Date(comment.createdAt).toDateString()}</h2>
     </div>
   );
 }

@@ -5,6 +5,12 @@
   background-color: rgb(6, 6, 7);
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.timeElapsed {
+  justify-self: flex-end;
+  align-self: flex-end;
 }
 .content {
   background-color: rgb(39, 39, 46);

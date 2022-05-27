@@ -34,6 +34,9 @@ export default function Post({ post }) {
   useEffect(() => {
     setComments(post.comments);
   }, []);
+  const commentComp = comments?.map((comment) => (
+    <Comment key={comment._id} comment={comment} postId={post._id} />
+  ));
   return (
     <div className={styles.container}>
       <Link href={`/users/${post.uid}`}>
@@ -76,11 +79,7 @@ export default function Post({ post }) {
             Submit
           </button>
         </form>
-        <div>
-          {comments?.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
-          ))}
-        </div>
+        <div>{commentComp?.reverse()}</div>
       </div>
     </div>
   );

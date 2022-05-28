@@ -4,7 +4,6 @@
 .username {
   background-color: rgb(6, 6, 7);
   padding: 10px;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
 }
@@ -15,4 +14,11 @@
 .content {
   background-color: rgb(39, 39, 46);
   padding: 10px;
+}
+.likes {
+  display: inline-block;
+  border-right: solid 1px white;
+  padding-right: 10px;
+  margin-right: 10px;
+  cursor: pointer;
 }

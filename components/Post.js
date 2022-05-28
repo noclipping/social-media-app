@@ -104,7 +104,7 @@ export default function Post({ post }) {
                 .reverse()
             : commentComp?.reverse()}
         </div>
-        {commentComp?.length > 3 && !loadMore ? (
+        {comments?.length > 3 && !loadMore ? (
           <div>
             {" "}
             <br />
@@ -120,7 +120,7 @@ export default function Post({ post }) {
               Load more
             </div>
           </div>
-        ) : (
+        ) : comments?.length > 3 ? (
           <div>
             {" "}
             <br />
@@ -131,11 +131,14 @@ export default function Post({ post }) {
               }}
               onClick={() => {
                 setLoadMore(false);
+                console.log(comments);
               }}
             >
               Show less
             </div>
           </div>
+        ) : (
+          ""
         )}
       </div>
     </div>

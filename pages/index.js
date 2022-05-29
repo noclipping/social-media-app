@@ -9,6 +9,7 @@ export default function Home({ data }) {
   const { data: session } = useSession();
   const [newPost, setNewPost] = useState("");
   const [posts, setPosts] = useState();
+  const [errMessage, setErrMessage] = useState("");
   async function submitPost(e) {
     e.preventDefault();
     fetch(`${server}/api/posts/create`, {
@@ -17,15 +18,21 @@ export default function Home({ data }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        uid: session.user._id,
-        username: session.user.username,
+        uid: session?.user._id,
+        username: session?.user.username,
         content: newPost,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) {
+          console.log(data.message);
+          setErrMessage(data.message);
+          return;
+        }
         console.log(data);
         setNewPost("");
+        setErrMessage("");
         document.getElementById("postInput").value = "";
         setPosts((prevPosts) => [data, ...prevPosts]);
       });
@@ -43,6 +50,11 @@ export default function Home({ data }) {
       <div className={styles.container}>
         <div style={{ border: "solid 1px yellow" }}>
           <div style={{ width: "80%", margin: "0 auto" }}>
+            {errMessage.length > 1 ? (
+              <p style={{ color: "red" }}>{errMessage}</p>
+            ) : (
+              ""
+            )}
             <form>
               <br />
               <input

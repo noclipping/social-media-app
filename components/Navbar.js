@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Navbar.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import { BiBell } from "react-icons/bi";
+import Notification from "./Notification";
 export default function Navbar() {
   const { data: session } = useSession();
 
@@ -16,6 +17,19 @@ export default function Navbar() {
         <div className={styles.user_info_container}>
           {session ? (
             <div className={styles.user_info}>
+              <div className={styles.dropdown}>
+                <BiBell
+                  style={{ marginRight: "20px" }}
+                  size="20px"
+                  onClick={() => {
+                    console.log("expand");
+                  }}
+                />
+                <div className={styles.dropdownContent}>
+                  <Notification />
+                  <Notification />
+                </div>
+              </div>
               <img
                 src={"https://i.stack.imgur.com/34AD2.jpg"}
                 className={styles.image}

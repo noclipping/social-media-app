@@ -1,9 +1,11 @@
 import React from "react";
-
-export default function Notification() {
+import styles from "../styles/Notification.module.css";
+export default function Notification({ notification }) {
   return (
-    <div>
-      <p>Notification</p>
+    <div className={styles.container}>
+      {notification.username} {notification.message}{" "}
+      <button className={styles.accept}>Accept</button>
+      <button className={styles.decline}>Decline</button>
     </div>
   );
 }

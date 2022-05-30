@@ -1,0 +1,14 @@
+.container {
+  white-space: nowrap;
+}
+.accept {
+  display: inline-block;
+  color: white;
+  background-color: rgb(91, 91, 255);
+  cursor: pointer;
+}
+.decline {
+  display: inline-block;
+
+  cursor: pointer;
+}

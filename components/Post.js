@@ -85,7 +85,8 @@ export default function Post({ post }) {
           <div onClick={(e) => handleLike(e)}>{postLiked ? "❤️ " : "❤ "}</div>
           <div
             style={{
-              paddingRight: "10px",
+              padding: "0px 5px",
+
               display: "inline-block",
             }}
           >

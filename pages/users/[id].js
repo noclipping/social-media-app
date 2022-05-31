@@ -6,12 +6,17 @@ import Post from "../../components/Post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import sendFriendRequest from "../functions/sendFriendRequest";
+import { useEffect } from "react";
+import FriendCard from "../../components/FriendCard";
 export default function User({ profile, posts, profileId }) {
   const { data: session } = useSession();
   const [sentRequest, setSentRequest] = useState(false);
 
   console.log(profile, "profile");
   console.log(profileId, "profid");
+
+  useEffect(() => {});
+
   function handleFrRequest() {
     sendFriendRequest(session.user.username, session.user._id, profileId);
   }
@@ -20,21 +25,36 @@ export default function User({ profile, posts, profileId }) {
       <div style={{ borderBottom: "solid 1px white", paddingBottom: "20px" }}>
         <img className={styles.profile_picture} src={profile?.profile.image} />
         <h1 className={styles.username}>{profile?.profile.username}</h1>
-        {session?.user._id == profileId ? (
+        {!session ||
+        session?.user._id == profileId ||
+        profile?.profile.friends.includes(session?.user._id) ? (
           ""
         ) : (
-          <div
+          <span
+            className={styles.addFriend}
             onClick={() => {
               handleFrRequest();
             }}
           >
-            add friend
-          </div>
+            Add Friend
+          </span>
         )}
       </div>
-      {posts?.posts.map((post) => {
-        return <Post post={post} key={post._id} profile={true} />;
-      })}
+      <div className={styles.main_content}>
+        <div
+          style={{
+            border: "solid 1px white",
+          }}
+        >
+          <h1 className={styles.friendsHeader}>Friends</h1>
+          {profile?.profile.friends.map((e) => {
+            return <FriendCard userId={e} />;
+          })}
+        </div>
+        {posts?.posts.map((post) => {
+          return <Post post={post} key={post._id} profile={true} />;
+        })}
+      </div>
     </div>
   );
 }

@@ -29,6 +29,10 @@
 .parent_container {
   background-color: #161b22;
   border-bottom: solid 1px rgb(58, 58, 58);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .container {

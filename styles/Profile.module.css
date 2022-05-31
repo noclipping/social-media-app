@@ -12,3 +12,22 @@
   height: 100px;
   width: 100px;
 }
+.main_content {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.friendsHeader {
+  font-size: 4vh;
+  margin: 0px 0px 20px 0px;
+  padding: 20px 0px;
+  border-bottom: solid 2px white;
+}
+.addFriend {
+  background-color: rgb(38, 64, 112);
+  margin-left: 40px;
+  cursor: pointer;
+  padding: 8px;
+}

@@ -56,7 +56,7 @@ export default function Navbar() {
                 >
                   <BiBell style={{ marginRight: "20px" }} size="24px" />
 
-                  {session?.user.notifications.length > 0 ? (
+                  {session?.user?.notifications?.length > 0 ? (
                     <span className={styles.notificationCount}>
                       {session?.user.notifications.length}
                     </span>
@@ -65,7 +65,7 @@ export default function Navbar() {
                   )}
                 </div>
                 <div id="dropdownContent" className={styles.dropdownContent}>
-                  {session?.user.notifications.map((e) => {
+                  {session?.user?.notifications?.map((e) => {
                     return <Notification notification={e} />;
                   })}
                 </div>
@@ -107,7 +107,11 @@ export default function Navbar() {
                     ""
                   )}
                 </div>
-                <div id="dropdownContent" className={styles.dropdownContent}>
+                <div
+                  id="dropdownContent"
+                  style={{ minWidth: "300px", left: "-100px" }}
+                  className={styles.dropdownContent}
+                >
                   not signed in, no notifications
                 </div>
               </div>

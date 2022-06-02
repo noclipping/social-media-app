@@ -9,7 +9,6 @@ export default function FriendCard({ userId }) {
     const profe = fetch(`${server}/api/users/${userId}`)
       .then((res) => res.json())
       .then((prof) => {
-        console.log(prof, "epic");
         setProfile(prof);
       });
   }, [userId]);

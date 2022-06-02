@@ -9,9 +9,20 @@ import { useState } from "react";
 import { useEffect } from "react";
 export default function Navbar() {
   const [openNotifications, setOpenNotifications] = useState(false);
+  const [notifs, setNotifs] = useState([]);
+  const [notifsLength, setNotifsLength] = useState(0);
   const { data: session } = useSession();
-
+  const removeNotif = (notifKey) => {
+    console.log("removed", notifKey, "notif");
+    setNotifs((prevState) => {
+      // return an array with the notif removed
+      const newArry = prevState.filter((e) => e._id !== notifKey);
+      return newArry;
+    });
+    setNotifsLength(notifsLength - 1);
+  };
   useEffect(() => {
+    setNotifsLength(session?.user.notifications.length);
     function func(e) {
       if (document.getElementById("dropdown").contains(e.target)) {
         // Clicked in box
@@ -27,12 +38,16 @@ export default function Navbar() {
         console.log("clicked outside box");
       }
     }
+    setNotifs(session?.user?.notifications);
+
+    console.log(notifs, "notifs");
+
     window.addEventListener("click", func);
 
     return function cleanUpEventListener() {
       window.removeEventListener("click", func);
     };
-  }, []);
+  }, [session]);
   function notificationHandler() {
     setOpenNotifications(!openNotifications);
     document.querySelector("#dropdownContent").style.display = openNotifications
@@ -56,17 +71,26 @@ export default function Navbar() {
                 >
                   <BiBell style={{ marginRight: "20px" }} size="24px" />
 
-                  {session?.user?.notifications?.length > 0 ? (
+                  {notifsLength > 0 ? (
                     <span className={styles.notificationCount}>
-                      {session?.user.notifications.length}
+                      {notifsLength}
                     </span>
                   ) : (
                     ""
                   )}
                 </div>
                 <div id="dropdownContent" className={styles.dropdownContent}>
-                  {session?.user?.notifications?.map((e) => {
+                  {/* {session?.user?.notifications?.map((e) => {
                     return <Notification notification={e} />;
+                  })} */}
+                  {notifs?.map((e) => {
+                    return (
+                      <Notification
+                        removeNotif={removeNotif}
+                        key={e._id}
+                        notification={e}
+                      />
+                    );
                   })}
                 </div>
               </div>

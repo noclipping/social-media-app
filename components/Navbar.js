@@ -26,7 +26,6 @@ export default function Navbar() {
     function func(e) {
       if (document.getElementById("dropdown").contains(e.target)) {
         // Clicked in box
-        console.log("clicked in box");
         setOpenNotifications(true);
 
         document.querySelector("#dropdownContent").style.display = "block";
@@ -35,7 +34,6 @@ export default function Navbar() {
 
         setOpenNotifications(false);
         document.querySelector("#dropdownContent").style.display = "none";
-        console.log("clicked outside box");
       }
     }
     setNotifs(session?.user?.notifications);
@@ -80,9 +78,6 @@ export default function Navbar() {
                   )}
                 </div>
                 <div id="dropdownContent" className={styles.dropdownContent}>
-                  {/* {session?.user?.notifications?.map((e) => {
-                    return <Notification notification={e} />;
-                  })} */}
                   {notifs?.map((e) => {
                     return (
                       <Notification

@@ -38,7 +38,7 @@
 .container {
   display: grid;
   background-color: #161b22;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 10px 0px 10px;
   max-width: 1160px;
   margin: 0 auto;
@@ -56,6 +56,13 @@
   justify-self: end;
   align-self: center;
   display: grid;
+}
+.usersIndex {
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+  text-transform: uppercase;
+  font-size: large;
 }
 .user_info p {
   margin-left: 20px;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Navbar.module.css";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { BiBell } from "react-icons/bi";
+import { BiBell, BiSearchAlt2 } from "react-icons/bi";
 import Notification from "./Notification";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -52,11 +52,17 @@ export default function Navbar() {
       ? "block"
       : "none";
   }
+
   return (
     <div className={styles.parent_container}>
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link href="/">Social-Humans™</Link>
+        </div>
+        <div className={styles.usersIndex}>
+          <Link href="/users/">
+            <BiSearchAlt2 style={{ cursor: "pointer" }} size="30px" />
+          </Link>
         </div>
         <div className={styles.user_info_container}>
           {session ? (

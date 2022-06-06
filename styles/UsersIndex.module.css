@@ -4,6 +4,3 @@
   max-width: 1160px;
   margin: 100px auto;
 }
-.parent_container * {
-  border: solid 1px red;
-}

@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     { _id: body.senderId },
     { $push: { friends: body.currentUser } }
   );
-  // mongoose.Types.ObjectId(commentId)
+  // mongoose.Types.ObjectId(commentId)a
   await User.findOneAndUpdate(
     { _id: body.currentUser },
     { $pull: { notifications: { _id: body.notificationid } } }

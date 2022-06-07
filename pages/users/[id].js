@@ -20,9 +20,6 @@ export default function User({ profile, posts, profileId }) {
   console.log(profile, "profile");
   console.log(profileId, "profid");
   useEffect(() => {
-    if (session) {
-      session.user.gaming = "yo";
-    }
     console.log("====new===");
     const rqSent = profile.profile.notifications.filter(
       (notif) => notif.userId === session?.user._id
@@ -83,7 +80,8 @@ export default function User({ profile, posts, profileId }) {
     setSentRequest(false);
   }
   function handleRemoveFr() {
-    fetch(`${server}/api/notifications/declineFriendRequest`, {
+    console.log(session.user._id, "session user id");
+    fetch(`${server}/api/notifications/removeFriend`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -140,7 +138,7 @@ export default function User({ profile, posts, profileId }) {
             onClick={(e) => {
               handleRemoveFr();
               document.querySelector("#removeFriend").style.display = "none";
-              router.reload(window.location.pathname);
+              router.push("/");
             }}
           >
             remove friend
@@ -171,7 +169,7 @@ export default function User({ profile, posts, profileId }) {
           <h1 className={styles.friendsHeader}>Friends</h1>
           <div>
             {profile?.profile.friends.map((e) => {
-              return <FriendCard userId={e} />;
+              return <FriendCard key={e} userId={e} />;
             })}
           </div>
         </div>

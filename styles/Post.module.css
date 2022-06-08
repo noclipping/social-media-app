@@ -28,18 +28,30 @@
   border-bottom: solid 1px rgb(177, 177, 177);
   padding-bottom: 10px;
 }
+.white_heart {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
 .fade_in {
   opacity: 1;
   animation-name: fadeInOpacity;
   animation-iteration-count: 1;
   animation-timing-function: ease-in;
   animation-duration: 0.2s;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 
 @keyframes fadeInOpacity {
   0% {
+    font-size: 100%;
+  }
+  50% {
     font-size: 140%;
-    transform: translate(-400px);
   }
   100% {
     font-size: 100%;

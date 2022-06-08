@@ -86,7 +86,7 @@ export default function Post({ post }) {
             {postLiked ? (
               <span className={styles.fade_in}>❤️ </span>
             ) : (
-              <span>❤ </span>
+              <span className={styles.white_heart}>❤ </span>
             )}
           </div>
           <div

@@ -3,6 +3,8 @@
   width: 80%;
   margin: 20px auto;
   padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .header {
   display: flex;
@@ -25,4 +27,21 @@
 .comments {
   border-bottom: solid 1px rgb(177, 177, 177);
   padding-bottom: 10px;
+}
+.fade_in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.2s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    font-size: 140%;
+    transform: translate(-400px);
+  }
+  100% {
+    font-size: 100%;
+  }
 }

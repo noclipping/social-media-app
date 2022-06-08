@@ -82,7 +82,13 @@ export default function Post({ post }) {
       <Link href={`/users/${post.uid}`}>
         <div style={{ cursor: "pointer" }} className={styles.header}>
           {/* Post Likes */}
-          <div onClick={(e) => handleLike(e)}>{postLiked ? "❤️ " : "❤ "}</div>
+          <div onClick={(e) => handleLike(e)}>
+            {postLiked ? (
+              <span className={styles.fade_in}>❤️ </span>
+            ) : (
+              <span>❤ </span>
+            )}
+          </div>
           <div
             style={{
               padding: "0px 5px",

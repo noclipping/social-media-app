@@ -1,6 +1,6 @@
 .parent_container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   max-width: 1160px;
   margin: 100px auto;
 }

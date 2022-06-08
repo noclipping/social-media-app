@@ -3,10 +3,9 @@ import { server } from "../../config/index";
 import styles from "../../styles/Profile.module.css";
 import Post from "../../components/Post";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import sendFriendRequest from "../functions/sendFriendRequest";
 import cancelFriendRequest from "../functions/cancelFriendRequest";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import FriendCard from "../../components/FriendCard";
@@ -138,6 +137,11 @@ export default function User({ profile, posts, profileId }) {
             onClick={(e) => {
               handleRemoveFr();
               document.querySelector("#removeFriend").style.display = "none";
+              console.log(session.user.friends);
+              session.user.friends = session.user.friends.filter(
+                (uzr) => uzr === profileId
+              );
+
               router.push("/");
             }}
           >

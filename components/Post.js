@@ -78,7 +78,9 @@ export default function Post({ post }) {
     <Comment key={comment._id} comment={comment} postId={post._id} />
   ));
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${styles.animated} ${styles.fadeInDown}`}
+    >
       <Link href={`/users/${post.uid}`}>
         <div style={{ cursor: "pointer" }} className={styles.header}>
           {/* Post Likes */}

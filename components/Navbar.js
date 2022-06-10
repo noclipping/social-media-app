@@ -146,13 +146,6 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <Image
-                src="https://i.stack.imgur.com/34AD2.jpg"
-                width="20px"
-                height="20px"
-              />
-
-              <p style={{ display: "inline-block" }}>Guest</p>
               <Link href="/signIn">
                 <button className={styles.button}>Sign In</button>
               </Link>

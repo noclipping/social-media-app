@@ -3,6 +3,7 @@ import styles from "../styles/Post.module.css";
 import Link from "next/link";
 import Comment from "./Comment";
 import { React, useState, useEffect } from "react";
+import getTimeElapsed from "./functions/getTimeElapsed";
 export default function Post({ post }) {
   const { data: session } = useSession();
   const [content, setContent] = useState("");
@@ -10,6 +11,9 @@ export default function Post({ post }) {
   const [errMessage, setErrMessage] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const [postLiked, setPostLiked] = useState(false);
+
+  const timeElapsed = new Date().getTime() - new Date(post.createdAt);
+
   const handleLike = (e) => {
     e.preventDefault();
     if (!session) {
@@ -81,24 +85,28 @@ export default function Post({ post }) {
     <div
       className={`${styles.container} ${styles.animated} ${styles.fadeInDown}`}
     >
-      <Link href={`/users/${post.uid}`}>
-        <div style={{ cursor: "pointer" }} className={styles.header}>
-          {/* Post Likes */}
-          <div onClick={(e) => handleLike(e)}>
+      <div className={styles.header}>
+        {/* Post Likes */}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            onClick={(e) => handleLike(e)}
+            style={{ display: "inline-block" }}
+          >
             {postLiked ? (
               <span className={styles.fade_in}>❤️ </span>
             ) : (
               <span className={styles.white_heart}>❤ </span>
             )}
-          </div>
-          <div
-            style={{
-              padding: "0px 5px",
 
-              display: "inline-block",
-            }}
-          >
-            {post.likes}
+            <div
+              style={{
+                padding: "0px 5px",
+
+                display: "inline-block",
+              }}
+            >
+              {post.likes}
+            </div>
           </div>
           <img
             src="https://i.stack.imgur.com/34AD2.jpg"
@@ -111,12 +119,15 @@ export default function Post({ post }) {
             }}
           />
           <div style={{ display: "inline-block" }}>
-            <p style={{ display: "inline-block", cursor: "pointer" }}>
-              {post.username}
-            </p>
+            <Link href={`/users/${post.uid}`}>
+              <p style={{ display: "inline-block", cursor: "pointer" }}>
+                {post.username}
+              </p>
+            </Link>
           </div>
         </div>
-      </Link>
+        <div>{getTimeElapsed(timeElapsed)} ago</div>
+      </div>
       <p className={styles.content}>{post.content}</p>
       <div className={styles.comments}>Comments</div>
       <br />

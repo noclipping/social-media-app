@@ -33,7 +33,9 @@ export default function Comment({ comment, postId }) {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${styles.animated} ${styles.fadeInDown}`}
+    >
       <div className={styles.username}>
         <div>
           <div
@@ -42,7 +44,11 @@ export default function Comment({ comment, postId }) {
             }}
             className={styles.likes}
           >
-            {!commentLiked ? "❤" : "❤️"} {comment.likes}
+            {commentLiked ? (
+              <span className={styles.like}>❤️ {comment.likes} </span>
+            ) : (
+              <span className={styles.white_heart}>❤ {comment.likes}</span>
+            )}
           </div>
 
           <Link href={`/users/${comment.uid}`}>{comment.username}</Link>

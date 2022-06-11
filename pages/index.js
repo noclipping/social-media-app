@@ -57,17 +57,32 @@ export default function Home({ data }) {
             )}
             <form>
               <br />
-              <input
-                id="postInput"
-                placeholder={`what's on your mind ${session?.user.username}?`}
-                style={{ width: "80%" }}
-                onChange={(e) => {
-                  setNewPost(e.target.value);
-                }}
-              />
-              <button style={{ width: "20%" }} onClick={submitPost}>
-                Submit
-              </button>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src="https://i.stack.imgur.com/34AD2.jpg"
+                  style={{
+                    display: "inline-block",
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    margin: "5px",
+                  }}
+                />
+                <input
+                  id="postInput"
+                  className={styles.postInput}
+                  placeholder={`What's on your mind ${session?.user.username}?`}
+                  onChange={(e) => {
+                    setNewPost(e.target.value);
+                  }}
+                />
+                <button
+                  style={{ width: "20%", display: "none" }}
+                  onClick={submitPost}
+                >
+                  Submit
+                </button>
+              </div>
             </form>
           </div>
           {data

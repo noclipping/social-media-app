@@ -100,7 +100,7 @@ export default function Post({ post }) {
 
             <div
               style={{
-                padding: "0px 5px",
+                paddingRight: "10px",
 
                 display: "inline-block",
               }}
@@ -130,31 +130,38 @@ export default function Post({ post }) {
       </div>
       <p className={styles.content}>{post.content}</p>
       <div className={styles.comments}>Comments</div>
-      <br />
       <div>
         <form>
-          <div>
-            comment as {session?.user ? session.user.username : "guest"}{" "}
-          </div>
-          <br />
           <p style={{ color: "red", fontSize: "14px" }}>{errMessage}</p>
           <br />
-          <input
-            id="commentContent"
-            placeholder="comment"
-            style={{ width: "80%" }}
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-          />
-          <button
-            style={{ width: "20%" }}
-            onClick={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            Submit
-          </button>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="https://i.stack.imgur.com/34AD2.jpg"
+              style={{
+                display: "inline-block",
+                width: "30px",
+                height: "30px",
+                borderRadius: "50%",
+                margin: "5px",
+              }}
+            />
+            <input
+              id="commentContent"
+              placeholder="Write a comment..."
+              className={styles.commentInput}
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
+            />
+            <button
+              style={{ width: "20%", display: "none" }}
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </form>
         <div>
           {!loadMore && commentComp?.length > 2

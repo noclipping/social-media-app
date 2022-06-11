@@ -101,7 +101,7 @@ export default function Post({ post }) {
             <div
               style={{
                 paddingRight: "10px",
-
+                whiteSpace: "nowrap",
                 display: "inline-block",
               }}
             >
@@ -126,7 +126,9 @@ export default function Post({ post }) {
             </Link>
           </div>
         </div>
-        <div>{getTimeElapsed(timeElapsed)} ago</div>
+        <div style={{ whiteSpace: "nowrap", fontSize: "12px" }}>
+          {getTimeElapsed(timeElapsed)} ago
+        </div>
       </div>
       <p className={styles.content}>{post.content}</p>
       <div className={styles.comments}>Comments</div>

@@ -53,7 +53,7 @@ export default function Comment({ comment, postId }) {
 
           <Link href={`/users/${comment.uid}`}>{comment.username}</Link>
         </div>
-        <div className={styles.timeElapsed}>
+        <div style={{ fontSize: "12px" }} className={styles.timeElapsed}>
           {getTimeElapsed(timeElapsed)} ago
         </div>
       </div>

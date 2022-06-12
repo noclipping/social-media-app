@@ -8,8 +8,10 @@ import { useEffect } from "react";
 export default function Home({ data }) {
   const { data: session } = useSession();
   const [newPost, setNewPost] = useState("");
+  const [allPosts, setAllPosts] = useState();
   const [posts, setPosts] = useState();
   const [errMessage, setErrMessage] = useState("");
+  const [postFilter, setFilter] = useState("all");
   async function submitPost(e) {
     e.preventDefault();
     fetch(`${server}/api/posts/create`, {
@@ -38,8 +40,25 @@ export default function Home({ data }) {
       });
   }
   useEffect(() => {
+    setAllPosts(data.posts);
     setPosts(data.posts);
   }, []);
+
+  function handleFilter(e) {
+    // location.reload();
+    if (e.target.value === "friends") {
+      setPosts(
+        posts.filter((post) => {
+          if (session?.user?.friends.includes(post.uid)) {
+            return post;
+          }
+        })
+      );
+    } else if (e.target.value === "all") {
+      setPosts(allPosts);
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -48,8 +67,31 @@ export default function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <div style={{ border: "solid 1px yellow" }}>
+        <div>
           <div style={{ width: "80%", margin: "0 auto" }}>
+            <form
+              onChange={(e) => {
+                console.log(e.target.value);
+                handleFilter(e);
+              }}
+            >
+              <label for="filter" style={{ display: "inline-block" }}>
+                Filter Posts:
+              </label>
+              <select
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  display: "inline-block",
+                }}
+                name="filter"
+                id="filter"
+              >
+                <option value="all">all</option>
+                <option value="friends">friends</option>
+              </select>
+            </form>
+
             {errMessage.length > 1 ? (
               <p style={{ color: "red" }}>{errMessage}</p>
             ) : (
@@ -91,7 +133,6 @@ export default function Home({ data }) {
               })
             : ""}
         </div>
-        <div style={{ border: "solid 1px aqua" }}>yo</div>
       </div>
     </div>
   );

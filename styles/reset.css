@@ -264,3 +264,6 @@ select[multiple] {
   /* Move the label to the top */
   vertical-align: top;
 }
+input {
+  background-color: white;
+}

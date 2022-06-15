@@ -86,15 +86,19 @@ export default function Navbar() {
                   )}
                 </div>
                 <div id="dropdownContent" className={styles.dropdownContent}>
-                  {notifs?.map((e) => {
-                    return (
-                      <Notification
-                        removeNotif={removeNotif}
-                        key={e._id}
-                        notification={e}
-                      />
-                    );
-                  })}
+                  {notifs?.length > 0 ? (
+                    notifs.map((e) => {
+                      return (
+                        <Notification
+                          removeNotif={removeNotif}
+                          key={e._id}
+                          notification={e}
+                        />
+                      );
+                    })
+                  ) : (
+                    <p>No notifications</p>
+                  )}
                 </div>
               </div>
               <img
@@ -127,7 +131,10 @@ export default function Navbar() {
                     notificationHandler();
                   }}
                 >
-                  <BiBell style={{ marginRight: "20px" }} size="24px" />
+                  <BiBell
+                    style={{ marginRight: "20px", marginBottom: "-8px" }}
+                    size="24px"
+                  />
 
                   {session?.user.notifications.length > 0 ? (
                     <span className={styles.notificationCount}>
@@ -142,10 +149,9 @@ export default function Navbar() {
                   style={{ minWidth: "300px", left: "-100px" }}
                   className={styles.dropdownContent}
                 >
-                  not signed in, no notifications
+                  <p>No notifications</p>
                 </div>
               </div>
-
               <Link href="/signIn">
                 <button className={styles.button}>Sign In</button>
               </Link>

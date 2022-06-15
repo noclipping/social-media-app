@@ -75,7 +75,7 @@ export default function Home({ data }) {
                 handleFilter(e);
               }}
             >
-              <label for="filter" style={{ display: "inline-block" }}>
+              <label id="filter" style={{ display: "inline-block" }}>
                 Filter Posts:
               </label>
               <select

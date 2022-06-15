@@ -7,36 +7,29 @@ import { useState, useEffect } from "react";
 import sendFriendRequest from "../functions/sendFriendRequest";
 import cancelFriendRequest from "../functions/cancelFriendRequest";
 import { useRouter } from "next/router";
-
+import { FaPen } from "react-icons/fa";
 import FriendCard from "../../components/FriendCard";
 export default function User({ profile, posts, profileId }) {
   const { data: session } = useSession();
   const [sentRequest, setSentRequest] = useState(false);
-  const [recievedRequest, setRecievedRequest] = useState(false);
   const [recievedFrReqId, setRecievedFrReqId] = useState("");
+  const [editing, setEditing] = useState(false);
+  const [bio, setBio] = useState("");
+  const [editBioValue, setEditBioValue] = useState("");
   const router = useRouter();
 
-  console.log(profile, "profile");
-  console.log(profileId, "profid");
   useEffect(() => {
-    console.log("====new===");
+    setBio(profile?.profile.bio);
     const rqSent = profile.profile.notifications.filter(
       (notif) => notif.userId === session?.user._id
     );
     const rqRecieved = session?.user?.notifications.filter(
       (notif) => notif.userId === profile.profile._id
     );
-    console.log(rqRecieved, "rqrecieved");
     if (rqRecieved?.length > 0) {
-      setRecievedRequest(true);
       setRecievedFrReqId(rqRecieved[0]._id);
-      console.log("rqRecTrue");
-    } else {
-      console.log("rqRecFalse");
-      setRecievedRequest(false);
     }
     if (rqSent.length > 0) {
-      console.log("triggered");
       setSentRequest(true);
     }
     if (rqSent.length == 0) {
@@ -44,28 +37,22 @@ export default function User({ profile, posts, profileId }) {
     }
     // const onFriendsList = profile?.profile.friends.includes(session?.user._id);
     // const isTheUser = session?.user._id == profileId;
+  }, [profile, session, session?.user?.notifications]);
 
-    // console.log(rqSent, "sent");
-    // console.log("onFriendsList", onFriendsList);
-    // console.log(sentRequest, "sentrqst");
-    // console.log("isTheUser", isTheUser);
-  }, [profile, session, recievedRequest, session?.user?.notifications]);
-
-  function acceptRequest() {
-    fetch(`${server}/api/notifications/acceptFriendRequest`, {
+  function bioHandler() {
+    fetch(`${server}/api/edits/bio`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         currentUser: session.user._id,
-        senderId: profile.profile._id,
-        notificationId: recievedFrReqId,
+        bio: editBioValue,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, " api response");
+        console.log(data, "data");
       });
   }
 
@@ -91,9 +78,13 @@ export default function User({ profile, posts, profileId }) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data, " api response");
-      });
+      .then((data) => {});
+
+    document.querySelector("#removeFriend").style.display = "none";
+    console.log(session.user.friends);
+    session.user.friends = session.user.friends.filter(
+      (uzr) => uzr === profileId
+    );
   }
   return (
     <div className={styles.container}>
@@ -103,8 +94,7 @@ export default function User({ profile, posts, profileId }) {
         {!session ||
         session?.user._id == profileId ||
         profile?.profile.friends.includes(session?.user._id) ||
-        sentRequest ||
-        recievedRequest ? (
+        sentRequest ? (
           ""
         ) : (
           <span
@@ -136,13 +126,6 @@ export default function User({ profile, posts, profileId }) {
             style={{ backgroundColor: "grey" }}
             onClick={(e) => {
               handleRemoveFr();
-              document.querySelector("#removeFriend").style.display = "none";
-              console.log(session.user.friends);
-              session.user.friends = session.user.friends.filter(
-                (uzr) => uzr === profileId
-              );
-
-              router.push("/");
             }}
           >
             remove friend
@@ -150,19 +133,46 @@ export default function User({ profile, posts, profileId }) {
         ) : (
           ""
         )}
-        {recievedRequest
-          ? // <span
-            //   onClick={() => {
-            //     console.log("accept fr request");
-            //     console.log(recievedFrReqId);
-            //     acceptRequest();
-            //   }}
-            //   className={styles.addFriend}
-            // >
-            //   Accept Request
-            // </span>
+        <br />
+        <div style={{ textAlign: "center" }}>
+          <span>{bio}</span>{" "}
+          {editing ? (
+            <form>
+              <input
+                onChange={(e) => {
+                  setEditBioValue(e.target.value);
+                }}
+              />
+              <button
+                style={{ backgroundColor: "white" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditing(false);
+                  setBio(editBioValue);
+                  bioHandler();
+                }}
+              >
+                Accept
+              </button>
+            </form>
+          ) : (
             ""
-          : ""}
+          )}
+          {/*
+            EDIT BIO BELOW
+          */}
+          {session?.user._id === profileId ? (
+            <span
+              onClick={() => {
+                setEditing(!editing);
+              }}
+            >
+              <FaPen />
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
       <div className={styles.main_content}>
         <div

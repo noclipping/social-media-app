@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    bio: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

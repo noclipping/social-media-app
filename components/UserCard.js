@@ -12,6 +12,7 @@ export default function UserCard({ user, userFriends }) {
   const { data: session } = useSession();
   const router = useRouter();
   useEffect(() => {
+    console.log("beepboopuseEffect");
     const rqSent = user.notifications.filter(
       (notif) => notif.userId === session?.user._id
     );
@@ -22,10 +23,15 @@ export default function UserCard({ user, userFriends }) {
     } else {
       setIsFriend(false);
     }
-
+    if (session?.user.friends.includes(user._id)) {
+      setIsFriend(true);
+    }
     if (rqSent.length > 0) {
       setIsFriend(true);
       console.log("triggered");
+    }
+    if (user._id === session?.user._id) {
+      setIsFriend(true);
     }
   }, [session, user, session?.user, router]);
   function handleAddFriend() {
@@ -58,8 +64,14 @@ export default function UserCard({ user, userFriends }) {
       <Link href={`/users/${user._id}`}>
         <div style={{ cursor: "pointer" }}>{user.username}</div>
       </Link>
-      {isFriend ? (
-        <div></div>
+      {isFriend || !session?.user ? (
+        <div
+          className={styles.addFriend}
+          style={{ zIndex: "-2", backgroundColor: "red" }}
+          /* this is not the actual add friend */
+        >
+          Add Friend
+        </div>
       ) : (
         <span
           className={styles.addFriend}

@@ -42,6 +42,7 @@ export default function Notification({ removeNotif, notification }) {
       .then((data) => {
         console.log(data, " api response");
       });
+    session.user.friends.push(notification.userId);
   }
   return (
     <div className={styles.container}>

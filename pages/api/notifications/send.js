@@ -9,6 +9,13 @@ export default async function handler(req, res) {
     userId: body.userId,
     recipient: body.recipient,
   });
+
+  await User.findOneAndUpdate(
+    { _id: body.recipient },
+    { $pull: { notifications: notification } }
+  ).then((resp) => {
+    res.status(200).send(resp);
+  });
   await User.findOneAndUpdate(
     { _id: body.recipient },
     { $push: { notifications: notification } }

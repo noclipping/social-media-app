@@ -88,7 +88,13 @@ export default function User({ profile, posts, profileId }) {
   }
   return (
     <div className={styles.container}>
-      <div style={{ borderBottom: "solid 1px white", paddingBottom: "20px" }}>
+      <div
+        style={{
+          borderBottom: "solid 1px white",
+          paddingBottom: "20px",
+          paddingTop: "20px",
+        }}
+      >
         <img className={styles.profile_picture} src={profile?.profile.image} />
         <h1 className={styles.username}>{profile?.profile.username}</h1>
         {!session ||
@@ -135,7 +141,9 @@ export default function User({ profile, posts, profileId }) {
         )}
         <br />
         <div style={{ textAlign: "center" }}>
-          <span>{bio}</span>{" "}
+          <div style={{ display: "inline-block", paddingTop: "30px" }}>
+            {bio}
+          </div>{" "}
           {editing ? (
             <form>
               <input
@@ -167,7 +175,7 @@ export default function User({ profile, posts, profileId }) {
                 setEditing(!editing);
               }}
             >
-              <FaPen />
+              <FaPen style={{ cursor: "pointer" }} />
             </span>
           ) : (
             ""

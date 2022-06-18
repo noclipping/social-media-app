@@ -9,6 +9,7 @@ import cancelFriendRequest from "../functions/cancelFriendRequest";
 import { useRouter } from "next/router";
 import { FaPen } from "react-icons/fa";
 import FriendCard from "../../components/FriendCard";
+import ProfileImage from "../../components/profileImage";
 export default function User({ profile, posts, profileId }) {
   const { data: session } = useSession();
   const [sentRequest, setSentRequest] = useState(false);
@@ -16,9 +17,11 @@ export default function User({ profile, posts, profileId }) {
   const [editing, setEditing] = useState(false);
   const [bio, setBio] = useState("");
   const [editBioValue, setEditBioValue] = useState("");
+  const [image, setImage] = useState(profile?.profile.image);
   const router = useRouter();
 
   useEffect(() => {
+    setImage(profile?.profile.image);
     setBio(profile?.profile.bio);
     const rqSent = profile.profile.notifications.filter(
       (notif) => notif.userId === session?.user._id
@@ -38,7 +41,9 @@ export default function User({ profile, posts, profileId }) {
     // const onFriendsList = profile?.profile.friends.includes(session?.user._id);
     // const isTheUser = session?.user._id == profileId;
   }, [profile, session, session?.user?.notifications]);
-
+  function changeImage(url) {
+    setImage(url);
+  }
   function bioHandler() {
     fetch(`${server}/api/edits/bio`, {
       method: "POST",
@@ -95,7 +100,12 @@ export default function User({ profile, posts, profileId }) {
           paddingTop: "20px",
         }}
       >
-        <img className={styles.profile_picture} src={profile?.profile.image} />
+        <img className={styles.profile_picture} src={image} />
+        {session?.user._id === profile.profile._id ? (
+          <ProfileImage changeImage={changeImage} />
+        ) : (
+          ""
+        )}
         <h1 className={styles.username}>{profile?.profile.username}</h1>
         {!session ||
         session?.user._id == profileId ||

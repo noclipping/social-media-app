@@ -101,10 +101,7 @@ export default function Navbar() {
                   )}
                 </div>
               </div>
-              <img
-                src={"https://i.stack.imgur.com/34AD2.jpg"}
-                className={styles.image}
-              />
+              <img src={session.user.image} className={styles.image} />
               <p style={{ display: "inline-block" }}>
                 <Link href={`/users/${session.user._id}`}>
                   {session.user.username}

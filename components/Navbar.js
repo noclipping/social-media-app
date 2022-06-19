@@ -38,8 +38,6 @@ export default function Navbar() {
     }
     setNotifs(session?.user?.notifications);
 
-    console.log(notifs, "notifs");
-
     window.addEventListener("click", func);
 
     return function cleanUpEventListener() {

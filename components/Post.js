@@ -2,16 +2,17 @@ import { useSession } from "next-auth/react";
 import styles from "../styles/Post.module.css";
 import Link from "next/link";
 import Comment from "./Comment";
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 import getTimeElapsed from "./functions/getTimeElapsed";
-export default function Post({ post }) {
+export default function Post({ post, deletePost }) {
   const { data: session } = useSession();
   const [content, setContent] = useState("");
   const [comments, setComments] = useState();
   const [errMessage, setErrMessage] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const [postLiked, setPostLiked] = useState(false);
-
+  const modalEl = useRef(null);
   const timeElapsed = new Date().getTime() - new Date(post.createdAt);
 
   const handleLike = (e) => {
@@ -37,6 +38,11 @@ export default function Post({ post }) {
         liked: postLiked,
       }),
     });
+  };
+  const handleDelete = (e) => {
+    e.preventDefault();
+    console.log("deleted", post._id);
+    deletePost(post._id, post.imgURL);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,6 +91,55 @@ export default function Post({ post }) {
     <div
       className={`${styles.container} ${styles.animated} ${styles.fadeInDown}`}
     >
+      <div ref={modalEl} id="myModal" className={styles.modal}>
+        <div className={styles.modalContent}>
+          <span
+            onClick={() => {
+              modalEl.current.style.display = "none";
+            }}
+            className={styles.close}
+          >
+            &times;
+          </span>
+          <p
+            style={{
+              display: "block",
+              paddingTop: "9px",
+              paddingBottom: "20px",
+            }}
+          >
+            Are you sure you want to delete this post?
+          </p>
+          <button
+            style={{
+              backgroundColor: "#ba1e1e",
+              padding: "8px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              color: "white",
+              marginRight: "10px",
+            }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>{" "}
+          <button
+            style={{
+              backgroundColor: "grey",
+              padding: "8px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              modalEl.current.style.display = "none";
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+
       <div className={styles.header}>
         {/* Post Likes */}
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -108,7 +163,7 @@ export default function Post({ post }) {
               {post.likes}
             </div>
           </div>
-          <img
+          {/* <img
             src="https://i.stack.imgur.com/34AD2.jpg"
             style={{
               display: "inline-block",
@@ -117,7 +172,7 @@ export default function Post({ post }) {
               borderRadius: "50%",
               margin: "5px",
             }}
-          />
+          /> */}
           <div style={{ display: "inline-block" }}>
             <Link href={`/users/${post.uid}`}>
               <p style={{ display: "inline-block", cursor: "pointer" }}>
@@ -128,9 +183,45 @@ export default function Post({ post }) {
         </div>
         <div style={{ whiteSpace: "nowrap", fontSize: "12px" }}>
           {getTimeElapsed(timeElapsed)} ago
+          {session?.user._id == post.uid ? (
+            <FaTrashAlt
+              style={{
+                cursor: "pointer",
+                color: "red",
+                marginLeft: "20px",
+                marginBottom: "-3px",
+              }}
+              size="15px"
+              onClick={() => {
+                modalEl.current.style.display = "block";
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <p className={styles.content}>{post.content}</p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {/* FUICKING POST IMAGE URL  BELOW!!!!!*/}
+        {post.imgURL ? (
+          <img
+            src={post.imgURL}
+            style={{
+              width: "100%",
+              maxHeight: "500px",
+              objectFit: "scale-down",
+            }}
+          />
+        ) : (
+          ""
+        )}
+      </div>
       <div className={styles.comments}>Comments</div>
       <div>
         <form>
@@ -138,7 +229,11 @@ export default function Post({ post }) {
           <br />
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src="https://i.stack.imgur.com/34AD2.jpg"
+              src={
+                session?.user
+                  ? session.user.image
+                  : "https://i.stack.imgur.com/34AD2.jpg"
+              }
               style={{
                 display: "inline-block",
                 width: "30px",

@@ -99,12 +99,13 @@ export default function Navbar() {
                   )}
                 </div>
               </div>
-              <img src={session.user.image} className={styles.image} />
-              <p style={{ display: "inline-block" }}>
-                <Link href={`/users/${session.user._id}`}>
-                  {session.user.username}
-                </Link>
-              </p>
+
+              <Link href={`/users/${session.user._id}`}>
+                <div style={{ display: "inline-block" }}>
+                  <img src={session.user.image} className={styles.image} />
+                  <p className={styles.username}>{session.user.username}</p>
+                </div>
+              </Link>
               <span
                 style={{
                   marginLeft: "20px",

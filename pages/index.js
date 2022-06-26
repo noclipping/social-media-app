@@ -1,5 +1,8 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import PostImage from "../components/PostImage";
+
+import { useS3Upload } from "next-s3-upload";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Post from "../components/Post";
 import { useState } from "react";
@@ -11,9 +14,61 @@ export default function Home({ data }) {
   const [allPosts, setAllPosts] = useState();
   const [posts, setPosts] = useState();
   const [errMessage, setErrMessage] = useState("");
-  const [postFilter, setFilter] = useState("all");
+  const [theFile, setTheFile] = useState();
+  const [img, setImg] = useState();
+  const [displayState, setDisplayState] = useState("none");
+  let { uploadToS3 } = useS3Upload();
+  async function handleFileChange(file) {
+    setImg(URL.createObjectURL(file));
+    try {
+      setImg(URL.createObjectURL(file));
+    } catch {
+      console.log("canceled img");
+      return;
+    }
+
+    setDisplayState("inline-block");
+    setTheFile(file);
+    console.log("epicness");
+  }
+  function deletePost(postId, imgURL) {
+    setPosts(posts.filter((post) => post._id != postId));
+    console.log(imgURL);
+    let deletion = "";
+    if (imgURL) {
+      deletion = imgURL.slice(48);
+    }
+    console.log(deletion, "deletion");
+    fetch(`${server}/api/posts/delete`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        postId,
+        deleteUrl: deletion,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }
   async function submitPost(e) {
     e.preventDefault();
+    console.log(session.user.image.slice(48));
+
+    let url = "";
+
+    if (theFile) {
+      if (theFile.size > 2000000) {
+        setErrMessage("file size too large!");
+        return;
+      }
+      let result = await uploadToS3(theFile);
+      url = result.url;
+    }
+    console.log(url, "daurl");
     fetch(`${server}/api/posts/create`, {
       method: "POST",
       headers: {
@@ -23,6 +78,7 @@ export default function Home({ data }) {
         uid: session?.user._id,
         username: session?.user.username,
         content: newPost,
+        imgURL: url,
       }),
     })
       .then((res) => res.json())
@@ -35,6 +91,9 @@ export default function Home({ data }) {
         console.log(data);
         setNewPost("");
         setErrMessage("");
+        setImg();
+        setTheFile();
+        setDisplayState("none");
         document.getElementById("postInput").value = "";
         setPosts((prevPosts) => [data, ...prevPosts]);
       });
@@ -101,7 +160,11 @@ export default function Home({ data }) {
               <br />
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
-                  src="https://i.stack.imgur.com/34AD2.jpg"
+                  src={
+                    session?.user
+                      ? session.user.image
+                      : "https://i.stack.imgur.com/34AD2.jpg"
+                  }
                   style={{
                     display: "inline-block",
                     width: "30px",
@@ -118,6 +181,23 @@ export default function Home({ data }) {
                     setNewPost(e.target.value);
                   }}
                 />
+                {/* <AiOutlinePaperClip size="35px" cursor="pointer" /> */}
+                <PostImage
+                  handleFileChange={handleFileChange}
+                  setTheFile={setTheFile}
+                  style={{ display: "inline-block" }}
+                />
+
+                <img
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    display: `${displayState}`,
+                  }}
+                  src={img}
+                  alt=""
+                />
+
                 <button
                   style={{ width: "20%", display: "none" }}
                   onClick={submitPost}
@@ -129,7 +209,9 @@ export default function Home({ data }) {
           </div>
           {data
             ? posts?.map((post) => {
-                return <Post post={post} key={post._id} />;
+                return (
+                  <Post post={post} key={post._id} deletePost={deletePost} />
+                );
               })
             : ""}
         </div>

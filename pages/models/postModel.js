@@ -28,6 +28,9 @@ const postSchema = new mongoose.Schema(
       default: [],
       required: true,
     },
+    imgURL: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

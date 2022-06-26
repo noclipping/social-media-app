@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     uid: body.uid,
     username: body.username,
     content: body.content,
+    imgURL: body.imgURL,
   });
   await post.save().then((savedPost) => {
     res.status(200).json(savedPost);

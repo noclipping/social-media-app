@@ -193,11 +193,7 @@ export default function User({ profile, posts, profileId }) {
         </div>
       </div>
       <div className={styles.main_content}>
-        <div
-          style={{
-            border: "solid 1px white",
-          }}
-        >
+        <div className={styles.friendsContainer}>
           <h1 className={styles.friendsHeader}>Friends</h1>
           <div>
             {profile?.profile.friends.map((e) => {

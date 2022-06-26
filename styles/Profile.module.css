@@ -31,3 +31,11 @@
   cursor: pointer;
   padding: 8px;
 }
+@media only screen and (max-width: 600px) {
+  .friendsContainer {
+    display: none;
+  }
+  .main_content {
+    display: block;
+  }
+}

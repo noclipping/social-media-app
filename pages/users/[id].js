@@ -17,13 +17,15 @@ export default function User({ profile, posts, profileId }) {
   const [editing, setEditing] = useState(false);
   const [bio, setBio] = useState("");
   const [editBioValue, setEditBioValue] = useState("");
-  const [image, setImage] = useState(profile?.profile.image);
+  const [image, setImage] = useState("https://i.stack.imgur.com/34AD2.jpg");
   const router = useRouter();
 
   useEffect(() => {
-    setImage(profile?.profile.image);
-    setBio(profile?.profile.bio);
-    const rqSent = profile.profile.notifications.filter(
+    if (profile?.profile?.image) {
+      setImage(profile?.profile?.image);
+    }
+    setBio(profile?.profile?.bio);
+    const rqSent = profile.profile?.notifications.filter(
       (notif) => notif.userId === session?.user._id
     );
     const rqRecieved = session?.user?.notifications.filter(
@@ -32,11 +34,13 @@ export default function User({ profile, posts, profileId }) {
     if (rqRecieved?.length > 0) {
       setRecievedFrReqId(rqRecieved[0]._id);
     }
-    if (rqSent.length > 0) {
-      setSentRequest(true);
-    }
-    if (rqSent.length == 0) {
-      setSentRequest(false);
+    if (rqSent) {
+      if (rqSent.length > 0) {
+        setSentRequest(true);
+      }
+      if (rqSent.length == 0) {
+        setSentRequest(false);
+      }
     }
     // const onFriendsList = profile?.profile.friends.includes(session?.user._id);
     // const isTheUser = session?.user._id == profileId;
@@ -101,15 +105,15 @@ export default function User({ profile, posts, profileId }) {
         }}
       >
         <img className={styles.profile_picture} src={image} />
-        {session?.user._id === profile.profile._id ? (
+        {session?.user._id === profile?.profile?._id ? (
           <ProfileImage changeImage={changeImage} />
         ) : (
           ""
         )}
-        <h1 className={styles.username}>{profile?.profile.username}</h1>
+        <h1 className={styles.username}>{profile?.profile?.username}</h1>
         {!session ||
         session?.user._id == profileId ||
-        profile?.profile.friends.includes(session?.user._id) ||
+        profile?.profile?.friends.includes(session?.user._id) ||
         sentRequest ? (
           ""
         ) : (
@@ -135,7 +139,7 @@ export default function User({ profile, posts, profileId }) {
         ) : (
           ""
         )}
-        {profile?.profile.friends.includes(session?.user._id) ? (
+        {profile?.profile?.friends.includes(session?.user._id) ? (
           <span
             id="removeFriend"
             className={styles.addFriend}
@@ -196,7 +200,7 @@ export default function User({ profile, posts, profileId }) {
         <div className={styles.friendsContainer}>
           <h1 className={styles.friendsHeader}>Friends</h1>
           <div>
-            {profile?.profile.friends.map((e) => {
+            {profile?.profile?.friends.map((e) => {
               return <FriendCard key={e} userId={e} />;
             })}
           </div>

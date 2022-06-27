@@ -22,7 +22,7 @@ export default function Navbar() {
     setNotifsLength(notifsLength - 1);
   };
   useEffect(() => {
-    setNotifsLength(session?.user.notifications.length);
+    setNotifsLength(session?.user?.notifications.length);
     function func(e) {
       if (document.getElementById("dropdown").contains(e.target)) {
         // Clicked in box
@@ -100,10 +100,10 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <Link href={`/users/${session.user._id}`}>
+              <Link href={`/users/${session?.user?._id}`}>
                 <div style={{ display: "inline-block" }}>
-                  <img src={session.user.image} className={styles.image} />
-                  <p className={styles.username}>{session.user.username}</p>
+                  <img src={session.user?.image} className={styles.image} />
+                  <p className={styles.username}>{session.user?.username}</p>
                 </div>
               </Link>
               <span

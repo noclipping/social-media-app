@@ -181,7 +181,7 @@ export default function Post({ post, deletePost }) {
             </Link>
           </div>
         </div>
-        <div style={{ whiteSpace: "nowrap", fontSize: "12px" }}>
+        <div style={{ whiteSpace: "nowrap" }}>
           {getTimeElapsed(timeElapsed)} ago
           {session?.user._id == post.uid ? (
             <FaTrashAlt

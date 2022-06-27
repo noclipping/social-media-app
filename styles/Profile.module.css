@@ -36,6 +36,6 @@
     display: none;
   }
   .main_content {
-    display: block;
+    grid-template-columns: 1fr;
   }
 }

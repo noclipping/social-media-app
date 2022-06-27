@@ -106,6 +106,7 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
+  padding: 0px 6px;
 }
 
 .button:disabled {

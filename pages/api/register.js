@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import Users from "../models/userModel";
-import { userSchema } from "../schemas/RegisterValidation";
 export default async function handler(req, res) {
   const body = req.body;
   const userExists = await Users.findOne({ username: body.username });

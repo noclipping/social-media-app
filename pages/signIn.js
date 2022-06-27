@@ -30,7 +30,12 @@ export default function signInPage({ csrfToken, providers }) {
   return (
     <div
       className={styles.container}
-      style={{ height: "220px", width: "220px", paddingTop: "10px" }}
+      style={{
+        height: "220px",
+        width: "220px",
+        paddingTop: "10px",
+        paddingBottom: "40px",
+      }}
     >
       <form action="">
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -64,12 +69,14 @@ export default function signInPage({ csrfToken, providers }) {
             />
           </label>
         </div>
-        <p style={{ color: "red" }}>{message}</p>
+        <p style={{ color: "red", marginBottom: "20px" }}>{message}</p>
         <button className={styles.button} onClick={(e) => signInUser(e)}>
           Sign In
         </button>
         <Link href="/register">
-          <button className={styles.button}>Register</button>
+          <button className={styles.button} style={{ marginBottom: "-1px" }}>
+            Register
+          </button>
         </Link>
       </form>
     </div>

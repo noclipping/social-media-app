@@ -90,8 +90,7 @@ export default function signInPage({ csrfToken, providers }) {
             />
           </label>
         </div>
-        <p style={{ color: "red" }}>{message}</p>
-        <br />
+        <p style={{ color: "red", marginBottom: "20px" }}>{message}</p>
         <button className={styles.button} onClick={(e) => signupUser(e)}>
           Register
         </button>

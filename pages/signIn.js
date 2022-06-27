@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import styles from "../styles/Signin.module.css";
 import Link from "next/link";
-export default function signInPage({ csrfToken, providers }) {
+export default function SignInPage({ csrfToken, providers }) {
   const [email, setEmail] = useState(""); // might be an error cause i have 2 email forms / ids / names below. watch the vid maybe he fixes it idk.
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);

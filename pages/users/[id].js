@@ -9,7 +9,7 @@ import cancelFriendRequest from "../functions/cancelFriendRequest";
 import { useRouter } from "next/router";
 import { FaPen } from "react-icons/fa";
 import FriendCard from "../../components/FriendCard";
-import ProfileImage from "../../components/profileImage";
+import ProfileImage from "../../components/ProfileImage";
 export default function User({ profile, posts, profileId }) {
   const { data: session } = useSession();
   const [sentRequest, setSentRequest] = useState(false);

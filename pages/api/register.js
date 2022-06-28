@@ -13,11 +13,12 @@ export default async function handler(req, res) {
   if (emailExists) {
     return res.status(404).json({ message: "Email in use" });
   }
-  try {
-    await userSchema.validate(body);
-  } catch (err) {
-    return res.status(400).json({ message: err.errors });
-  }
+  // console.log("here");
+  // try {
+  //   await userSchema.validate(body);
+  // } catch (err) {
+  //   return res.status(400).json({ message: err.errors });
+  // }
 
   const salt = await bcrypt.genSalt(10);
   const hashpass = await bcrypt.hash(body.password, salt);

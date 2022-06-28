@@ -1,5 +1,5 @@
-import Comment from "../../models/commentModel";
-import Post from "../../models/postModel";
+import Comment from "../../../models/commentModel";
+import Post from "../../../models/postModel";
 import { getSession } from "next-auth/react";
 export default async function handler(req, res) {
   const session = await getSession({ req });

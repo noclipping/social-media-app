@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import clientPromise from "./lib/mongodb";
 import connectDB from "./lib/connectDB";
 import CredentialsProvider from "next-auth/providers/credentials";
-import User from "../../models/userModel";
+import User from "../../../models/userModel";
 import bcrypt from "bcrypt";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 connectDB();

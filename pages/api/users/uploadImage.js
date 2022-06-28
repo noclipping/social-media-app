@@ -1,4 +1,4 @@
-import Users from "../../models/userModel";
+import Users from "../../../models/userModel";
 import AWS from "aws-sdk";
 export default async function handler(req, res) {
   AWS.config.update({

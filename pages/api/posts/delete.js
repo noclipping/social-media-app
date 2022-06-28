@@ -1,4 +1,4 @@
-import Posts from "../../models/postModel";
+import Posts from "../../../models/postModel";
 import AWS from "aws-sdk";
 export default async function handler(req, res) {
   console.log(req.body.deleteUrl, "delurl");

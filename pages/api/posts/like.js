@@ -1,4 +1,4 @@
-import Post from "../../models/postModel";
+import Post from "../../../models/postModel";
 import mongoose from "mongoose";
 export default async function handler(req, res) {
   const postId = req.body.postId;

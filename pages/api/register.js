@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Users from "../models/userModel";
+import Users from "../../models/userModel";
 export default async function handler(req, res) {
   const body = req.body;
   const userExists = await Users.findOne({ username: body.username });

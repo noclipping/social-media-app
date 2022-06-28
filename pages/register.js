@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import styles from "../styles/Signin.module.css";
 
-import { server } from "../config/index";
 export default function RegisterPage({ csrfToken, providers }) {
   const [email, setEmail] = useState(""); // might be an error cause i have 2 email forms / ids / names below. watch the vid maybe he fixes it idk.
   const [password, setPassword] = useState("");
@@ -21,7 +20,7 @@ export default function RegisterPage({ csrfToken, providers }) {
   const signupUser = async (e) => {
     e.preventDefault();
     setMessage(null);
-    const res = await fetch(`${server}/api/register`, {
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

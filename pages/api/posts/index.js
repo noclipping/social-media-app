@@ -1,4 +1,4 @@
-import Posts from "../../models/postModel";
+import Posts from "../../../models/postModel";
 import connectDB from "../auth/lib/connectDB";
 export default async function handler(req, res) {
   connectDB();

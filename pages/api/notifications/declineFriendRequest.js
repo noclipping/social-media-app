@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "../../models/userModel";
+import User from "../../../models/userModel";
 export default async function handler(req, res) {
   const body = req.body;
 

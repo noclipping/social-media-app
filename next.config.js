@@ -1,9 +1,4 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: ["i.stack.imgur.com"],
-  },
+module.exports = {
   async headers() {
     return [
       {
@@ -26,5 +21,3 @@ const nextConfig = {
     ];
   },
 };
-
-module.exports = nextConfig;

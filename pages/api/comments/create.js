@@ -1,11 +1,14 @@
 import Comment from "../../../models/commentModel";
 import Post from "../../../models/postModel";
-import { getSession } from "next-auth/react";
+
+import { getToken } from "next-auth/jwt";
+
+const secret = "secret";
 export default async function handler(req, res) {
-  const session = await getSession({ req });
+  const token = await getToken({ req, secret });
   const body = req.body;
 
-  if (!session) {
+  if (!token) {
     res
       .status(400)
       .json({ message: "you must be signed in to comment!", error: true });

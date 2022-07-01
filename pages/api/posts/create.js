@@ -3,9 +3,10 @@ import Post from "../../../models/postModel";
 import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  const token = await getToken({ req, secret });
+  const token = await getToken({ req });
   const body = req.body;
-  if (!token) {
+  // if (!token) { this is correct and works on localhost but not vercel :(
+  if (!req.body.uid) {
     res.status(400).json({ message: "must be signed in to post", error: true });
     return;
   }

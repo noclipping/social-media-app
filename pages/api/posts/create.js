@@ -2,7 +2,6 @@ import Post from "../../../models/postModel";
 
 import { getToken } from "next-auth/jwt";
 
-const secret = "secret";
 export default async function handler(req, res) {
   const token = await getToken({ req, secret });
   const body = req.body;

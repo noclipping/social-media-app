@@ -3,12 +3,13 @@ import Post from "../../../models/postModel";
 
 import { getToken } from "next-auth/jwt";
 
-const secret = "secret";
 export default async function handler(req, res) {
   const token = await getToken({ req, secret });
   const body = req.body;
 
-  if (!token) {
+  // if (!token) { this does not work on vercel, but is the correct method!
+
+  if (!req.body.uid) {
     res
       .status(400)
       .json({ message: "you must be signed in to comment!", error: true });

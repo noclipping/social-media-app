@@ -1,10 +1,11 @@
 import Post from "../../../models/postModel";
 
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
+
 export default async function handler(req, res) {
-  const session = await getSession({ req });
+  const token = await getToken({ req, secret });
   const body = req.body;
-  if (!session) {
+  if (!token) {
     res.status(400).json({ message: "must be signed in to post", error: true });
     return;
   }
@@ -24,3 +25,14 @@ export default async function handler(req, res) {
     res.status(200).json(savedPost);
   });
 }
+
+// if (token) {
+//   // Signed in
+//   console.log("JSON Web Token", JSON.stringify(token, null, 2));
+//   res.json(token);
+// } else {
+//   // Not Signed in
+//   res.status(401);
+// }
+// res.end();
+// // end copy pasta

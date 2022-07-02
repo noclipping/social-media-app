@@ -101,7 +101,12 @@ export default function Navbar() {
               </div>
 
               <Link href={`/users/${session?.user?._id}`}>
-                <div style={{ display: "inline-block" }}>
+                <div
+                  style={{
+                    display: "inline-block",
+                    cursor: "pointer",
+                  }}
+                >
                   <img src={session.user?.image} className={styles.image} />
                   <p className={styles.username}>{session.user?.username}</p>
                 </div>

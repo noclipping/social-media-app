@@ -208,6 +208,7 @@ export default function Post({ post, deletePost }) {
           justifyContent: "center",
         }}
       >
+        <a name={`${post._id}`}></a>
         {/* FUICKING POST IMAGE URL  BELOW!!!!!*/}
         {post.imgURL ? (
           <img
@@ -222,9 +223,11 @@ export default function Post({ post, deletePost }) {
           ""
         )}
       </div>
+
       <div className={styles.comments}>Comments</div>
+
       <div>
-        <form>
+        <form action={`#${post._id}`}>
           <p style={{ color: "red", fontSize: "14px" }}>{errMessage}</p>
           <br />
           <div style={{ display: "flex", alignItems: "center" }}>

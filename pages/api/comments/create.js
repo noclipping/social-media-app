@@ -4,7 +4,7 @@ import Post from "../../../models/postModel";
 import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
-  const token = await getToken({ req, secret });
+  const token = await getToken({ req });
   const body = req.body;
 
   // if (!token) { this does not work on vercel, but is the correct method!

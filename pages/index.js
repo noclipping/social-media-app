@@ -156,7 +156,7 @@ export default function Home({ data }) {
             ) : (
               ""
             )}
-            <form>
+            <form onSubmit={submitPost}>
               <br />
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
@@ -198,12 +198,12 @@ export default function Home({ data }) {
                   alt=""
                 />
 
-                <button
+                {/* <button
                   style={{ width: "20%", display: "none" }}
                   onClick={submitPost}
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </form>
           </div>

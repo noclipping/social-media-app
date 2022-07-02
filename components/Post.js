@@ -254,23 +254,10 @@ export default function Post({ post, deletePost }) {
               id="commentContent"
               placeholder="Write a comment..."
               className={styles.commentInput}
-              // onKeyDown={(e) => {
-              //   if (e.key === "Enter") {
-              //     handleSubmit(e);
-              //   }
-              // }}
               onChange={(e) => {
                 setContent(e.target.value);
               }}
             />
-            {/* <button
-              style={{ width: "20%", display: "none" }}
-              onClick={(e) => {
-                handleSubmit(e);
-              }}
-            >
-              Submit
-            </button> */}
           </div>
         </form>
         <div>

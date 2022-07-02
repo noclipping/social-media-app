@@ -197,13 +197,6 @@ export default function Home({ data }) {
                   src={img}
                   alt=""
                 />
-
-                {/* <button
-                  style={{ width: "20%", display: "none" }}
-                  onClick={submitPost}
-                >
-                  Submit
-                </button> */}
               </div>
             </form>
           </div>

@@ -227,7 +227,12 @@ export default function Post({ post, deletePost }) {
       <div className={styles.comments}>Comments</div>
 
       <div>
-        <form action={`#${post._id}`}>
+        <form
+          action={`#${post._id}`}
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <p style={{ color: "red", fontSize: "14px" }}>{errMessage}</p>
           <br />
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -249,11 +254,11 @@ export default function Post({ post, deletePost }) {
               id="commentContent"
               placeholder="Write a comment..."
               className={styles.commentInput}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSubmit(e);
-                }
-              }}
+              // onKeyDown={(e) => {
+              //   if (e.key === "Enter") {
+              //     handleSubmit(e);
+              //   }
+              // }}
               onChange={(e) => {
                 setContent(e.target.value);
               }}

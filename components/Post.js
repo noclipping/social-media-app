@@ -186,7 +186,7 @@ export default function Post({ post, deletePost }) {
           <span style={{ fontSize: "12px" }}>
             {getTimeElapsed(timeElapsed)} ago
           </span>
-          {session?.user._id == post.uid ? (
+          {session?.user._id == post.uid || session?.user.admin ? (
             <FaTrashAlt
               style={{
                 cursor: "pointer",

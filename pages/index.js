@@ -156,7 +156,8 @@ export default function Home({ data }) {
             ) : (
               ""
             )}
-            <form>
+            <a name="top"></a>
+            <form action="#top" onSubmit={submitPost}>
               <br />
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
@@ -197,13 +198,6 @@ export default function Home({ data }) {
                   src={img}
                   alt=""
                 />
-
-                <button
-                  style={{ width: "20%", display: "none" }}
-                  onClick={submitPost}
-                >
-                  Submit
-                </button>
               </div>
             </form>
           </div>

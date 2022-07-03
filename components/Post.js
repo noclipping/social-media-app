@@ -74,6 +74,7 @@ export default function Post({ post, deletePost }) {
         console.log(data);
         document.getElementById("commentContent").value = "";
         setComments((prevState) => [...prevState, data.comment]);
+        setContent("");
       });
   };
   useEffect(() => {
@@ -150,7 +151,7 @@ export default function Post({ post, deletePost }) {
             {postLiked ? (
               <span className={styles.fade_in}>❤️ </span>
             ) : (
-              <span className={styles.white_heart}>❤ </span>
+              <span className={styles.white_heart}>🤍 </span>
             )}
 
             <div
@@ -182,13 +183,15 @@ export default function Post({ post, deletePost }) {
           </div>
         </div>
         <div style={{ whiteSpace: "nowrap" }}>
-          {getTimeElapsed(timeElapsed)} ago
+          <span style={{ fontSize: "12px" }}>
+            {getTimeElapsed(timeElapsed)} ago
+          </span>
           {session?.user._id == post.uid ? (
             <FaTrashAlt
               style={{
                 cursor: "pointer",
                 color: "red",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginBottom: "-3px",
               }}
               size="15px"
@@ -208,6 +211,7 @@ export default function Post({ post, deletePost }) {
           justifyContent: "center",
         }}
       >
+        <a name={`${post._id}`}></a>
         {/* FUICKING POST IMAGE URL  BELOW!!!!!*/}
         {post.imgURL ? (
           <img
@@ -222,9 +226,16 @@ export default function Post({ post, deletePost }) {
           ""
         )}
       </div>
+
       <div className={styles.comments}>Comments</div>
+
       <div>
-        <form>
+        <form
+          action={`#${post._id}`}
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <p style={{ color: "red", fontSize: "14px" }}>{errMessage}</p>
           <br />
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -250,14 +261,6 @@ export default function Post({ post, deletePost }) {
                 setContent(e.target.value);
               }}
             />
-            <button
-              style={{ width: "20%", display: "none" }}
-              onClick={(e) => {
-                handleSubmit(e);
-              }}
-            >
-              Submit
-            </button>
           </div>
         </form>
         <div>

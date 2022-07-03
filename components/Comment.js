@@ -47,7 +47,7 @@ export default function Comment({ comment, postId }) {
             {commentLiked ? (
               <span className={styles.like}>❤️ {comment.likes} </span>
             ) : (
-              <span className={styles.white_heart}>❤ {comment.likes}</span>
+              <span className={styles.white_heart}>🤍 {comment.likes}</span>
             )}
           </div>
 

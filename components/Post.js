@@ -74,6 +74,7 @@ export default function Post({ post, deletePost }) {
         console.log(data);
         document.getElementById("commentContent").value = "";
         setComments((prevState) => [...prevState, data.comment]);
+        setContent("");
       });
   };
   useEffect(() => {
@@ -182,13 +183,15 @@ export default function Post({ post, deletePost }) {
           </div>
         </div>
         <div style={{ whiteSpace: "nowrap" }}>
-          {getTimeElapsed(timeElapsed)} ago
+          <span style={{ fontSize: "12px" }}>
+            {getTimeElapsed(timeElapsed)} ago
+          </span>
           {session?.user._id == post.uid ? (
             <FaTrashAlt
               style={{
                 cursor: "pointer",
                 color: "red",
-                marginLeft: "20px",
+                marginLeft: "10px",
                 marginBottom: "-3px",
               }}
               size="15px"

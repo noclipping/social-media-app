@@ -153,7 +153,6 @@
 
 @media only screen and (max-width: 460px) {
   .header {
-    font-size: 10px;
     white-space: nowrap;
     display: flex;
     background-color: rgb(28, 28, 36);
